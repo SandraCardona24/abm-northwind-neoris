@@ -10,9 +10,8 @@ namespace CapaDatos
     {
         void ActualizarRegistro(T entitdad);
         void InsertarRegistro(T entidad);
-        Boolean EliminarRegistro(String id);
-        void ExisteRegistro(String id);
-        IEnumerable<T> GetTodosRegistros();
-        T GetRegistroById(String id);
+        bool EliminarRegistro(String id);
+        bool ExisteRegistro(String id);
+
     }
 }
