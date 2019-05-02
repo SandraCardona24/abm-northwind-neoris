@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    class TerritoryEntity
+    public class TerritoryEntity
     {
         public string Id { get; set; }
         public String Description { get; set; }

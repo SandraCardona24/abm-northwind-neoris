@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    class TerritoriesAdo : IEntitysDAO<Territories>
+    public class TerritoriesAdo : IEntitysDAO<Territories>
     {
 
         //Listo
@@ -77,7 +77,7 @@ namespace CapaDatos
             }
         }
         //Listo
-        public IEnumerable<TerritoryEntity> GetTodosRegistros()
+        public List<TerritoryEntity> GetTodosRegistros()
         {
             using (NorthwindEntities contexto = new NorthwindEntities())
             {
@@ -115,6 +115,27 @@ namespace CapaDatos
                             RegionDescription = terr.Region.RegionDescription
                         });
                     }
+                }
+                return listaTerritory;
+            }
+        }
+        public List<TerritoryEntity> GetRegistrosByRegion(int id)
+        {
+            using (NorthwindEntities contexto = new NorthwindEntities())
+            {
+                var territories = contexto.Territories.Where(terr => terr.RegionID.Equals(id));
+                List<TerritoryEntity> listaTerritory = new List<TerritoryEntity>();
+
+                foreach (Territories terr in territories)
+                {
+
+                    listaTerritory.Add(new TerritoryEntity
+                    {
+                        Id = (terr.TerritoryID),
+                        Description = terr.TerritoryDescription,
+                        RegionId = terr.RegionID,
+                        RegionDescription = terr.Region.RegionDescription
+                    });
                 }
                 return listaTerritory;
             }
