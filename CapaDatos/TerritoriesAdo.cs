@@ -8,6 +8,10 @@ namespace CapaDatos
 {
     public class TerritoriesAdo : IEntitysDAO<Territories>
     {
+        public void FixEfProviderServicesProblem()
+        {
+            var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+        }
 
         //Listo
         public void ActualizarRegistro(Territories territory)
