@@ -53,7 +53,7 @@ namespace CapaDatos
         {
             using (NorthwindEntities contexto = new NorthwindEntities())
             {
-                var contador = contexto.Territories.Where(terr => terr.TerritoryID.Equals(idParam)).Count();
+                var contador = contexto.Territories.Where(terr => terr.TerritoryID.Equals(id)).Count();
                 return contador > 0;
             }
         }

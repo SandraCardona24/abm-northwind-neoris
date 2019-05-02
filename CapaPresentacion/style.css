@@ -1,0 +1,22 @@
+﻿
+body {
+    background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+    font-family: Roboto;
+    padding: 10px;
+}
+
+.jumbotron {
+    background: rgba(232, 225, 233, 0.3);
+    padding: 10px;
+    margin: 20px 50px 15px 50px;   
+}
+.btn{
+    margin-left: 4px;
+}
+.table{
+    margin-top: 10px;
+}
+
+.dropdown-regiones{
+    width: 100px;
+}

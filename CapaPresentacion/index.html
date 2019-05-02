@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ABM Northwind</title>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--  Jquery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <!--CSS-->
+    <link href="style.css" rel="stylesheet" />
+    <!--JS-->
+    <script src="myScripts.js"></script>
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+</head>
+<body>
+    
+        <div class="jumbotron">
+            <h1 class="text-center titulo">ABM Northwind Territories</h1>
+            <p class="text-center">Diaz Nicolas Andres</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <input id="inputId" type="number" class="form-control" placeholder="Id">
+                        </div>
+                        <div class="col">
+                            <input id="inputDescripcion" type="text" class="form-control" placeholder="Descripcion">
+                        </div>
+                        <div class="col input-group mb-3">
+                            <select class=" dropdown-regiones custom-select" id="inputGroupSelect02">
+                                <option selected>Regiones...</option>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-success">Insertar</button>
+                            <button type="button" class="btn btn-primary">Modificar</button>
+                            <button type="button" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </div>             
+                </form>
+            </div>
+            <!--Tabla-->
+            <div class="col-6">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Region ID</th>
+                            <th scope="col">Region Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!--Bootstrap-->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
