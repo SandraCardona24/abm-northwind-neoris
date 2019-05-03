@@ -73,17 +73,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="getRegistroID.ashx.cs">
+    <Compile Include="Handlers\getRegistroID.ashx.cs">
       <DependentUpon>getRegistroID.ashx</DependentUpon>
     </Compile>
-    <Compile Include="GetTodosTerritories.ashx.cs">
+    <Compile Include="Handlers\GetTodosTerritories.ashx.cs">
       <DependentUpon>GetTodosTerritories.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GetTodosTerritories.ashx" />
-    <Content Include="getRegistroID.ashx" />
+    <Content Include="Handlers\GetTodosTerritories.ashx" />
+    <Content Include="Handlers\getRegistroID.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
