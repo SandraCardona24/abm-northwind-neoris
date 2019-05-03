@@ -82,12 +82,16 @@
     <Compile Include="Handlers\InsertarTerritorio.ashx.cs">
       <DependentUpon>InsertarTerritorio.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ModificarRegistro.ashx.cs">
+      <DependentUpon>ModificarRegistro.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Handlers\GetTodosTerritories.ashx" />
     <Content Include="Handlers\getRegistroID.ashx" />
     <Content Include="Handlers\InsertarTerritorio.ashx" />
+    <Content Include="Handlers\ModificarRegistro.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

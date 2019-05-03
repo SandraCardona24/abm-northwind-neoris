@@ -21,29 +21,42 @@
         }
 
     })
-
     //boton insertar
-    $("#boton-insertar").click(function () { 
-        alert("Alertaa")
-        insertarTerritorio();
-        
-        
+    $("#boton-insertar").click(function () {         
+        insertarTerritorio();        
+        deshabilitarBotones();
+        //aGREGAR SE AGREGO CORRECTAMENTE
+    
     });
     
 
 });
 
-
+//AJAX
 function insertarTerritorio(){
     
     $.ajax({
         type: "POST",
         url: 'Handlers/InsertarTerritorio.ashx',
-        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val()},
+        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val() },
         dataType: "json",
+        
         async: true,
-        success: function () {           
+        success: function (datas) {     
+           
+            var id = ($("#inputId").val())
+            var descripcion  =($("#inputDescripcion").val())
+            var regionId = ($('.dropdown-regiones').children("option:selected").val())
+            var RegionDescription = ($('.dropdown-regiones').children("option:selected").text())
+
+            agregarRegistroATabla(id,descripcion,regionId,RegionDescription);
+            $("#inputId").val(" ");
+            limpiarInputs();
+           
             
+
+            
+            //cargarTabla();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -89,8 +102,8 @@ function cargarTabla() {
         async: true,
         success: function (registros) {
             for (var i = 0; i < registros.length; i++) {
-                var registro = ("<tr><td>" + registros[i].Id + "</td><td>" + registros[i].Description + "</td>   <td>" + registros[i].RegionId + "</td> <td>" + registros[i].RegionDescription + "</td></tr>");
-                $('table').append(registro);
+                
+                agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
@@ -102,10 +115,11 @@ function cargarTabla() {
     });
 }
 
-function limpiarInputs(){
 
+//funciones
+function limpiarInputs(){
         $("#inputDescripcion").val("");
-        $('select>option:eq(0)').attr('selected', true);
+        $('select').val(0);
         $("#inputDescripcion").attr("placeholder", "Descripcion").blur();
 }
 
@@ -118,4 +132,9 @@ function deshabilitarBotones(){
 function habilitarBotonesModifElim() { 
     $("#boton-modificar").attr("disabled",false);
     $("#boton-eliminar").attr("disabled",false);
+ }
+
+ function agregarRegistroATabla(id,descripcion,region,RegionDescription){
+    var registro = ("<tr><td>" + id + "</td><td>" + descripcion + "</td>   <td>" + region + "</td> <td>" + RegionDescription + "</td></tr>");
+    $('table').append(registro);
  }
