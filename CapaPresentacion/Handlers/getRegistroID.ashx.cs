@@ -24,7 +24,7 @@ namespace CapaPresentacion
 
             if (!manejador.ExisteRegistro(id))
             {
-                var reg = manejador.CrearTerritorie("NoExiste", "NoExiste", "NoExiste", -1);
+                var reg = manejador.CrearTerritorieEntity("NoExiste", "NoExiste", "NoExiste", -1);
 
                 jsonOutput = new JavaScriptSerializer().Serialize(reg);
                 context.Response.Write(jsonOutput);

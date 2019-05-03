@@ -62,7 +62,8 @@ namespace CapaNegocio
         {
             return this.capaDatos.GetRegistrosByRegion(region);
         }
-        public TerritoryEntity CrearTerritorie(string id, string description, string regionDescription, int regionid)
+
+        public TerritoryEntity CrearTerritorieEntity(string id, string description, string regionDescription, int regionid)
         {
             return new TerritoryEntity()
             {
@@ -75,5 +76,15 @@ namespace CapaNegocio
 
         }
 
-    }
+        public Territories CrearTerritorie(string id, string description, int region)
+        {
+            return new Territories()
+            {
+                TerritoryID = id,
+                TerritoryDescription = description,
+                RegionID = region
+            };
+        }
+
+   }
 }

@@ -8,6 +8,8 @@
     cargarTabla();
     deshabilitarBotones();
 
+
+    
     //input id.
     $("#inputId").change(function () {
         //Limpiart tabla
@@ -21,13 +23,34 @@
     })
 
     //boton insertar
-    $("#boton-insertar").click(function (e) { 
+    $("#boton-insertar").click(function () { 
+        alert("Alertaa")
+        insertarTerritorio();
         
         
     });
     
 
 });
+
+
+function insertarTerritorio(){
+    
+    $.ajax({
+        type: "POST",
+        url: 'Handlers/InsertarTerritorio.ashx',
+        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val()},
+        dataType: "json",
+        async: true,
+        success: function () {           
+            
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+            console.log(error.Message);
+        }
+    })
+}
 
 function getRegistroID() {
     $.ajax({
@@ -37,16 +60,17 @@ function getRegistroID() {
         dataType: "json",
         async: true,
         success: function (registro) {
-            if (registro.RegionId == -1) {
-                $("#inputDescripcion").attr("placeholder", "Este id no existe, puedes crearlo si lo deseas").blur();
+
+            if (registro.RegionId == -1) {  /*Si el id no existe */          
+                $("#inputDescripcion").val("");
+                /**Por si ingreso un id valido, borro y volvio a escribir otro  sin hacer post. */
+                deshabilitarBotones();
                 $("#boton-insertar").attr("disabled",false);
             } else {                
                 $("#inputDescripcion").val(registro.Description);
                 $('select>option:eq(' + registro.RegionId + ')').attr('selected', true);
-                habilidarBotonesModElim();
+                habilitarBotonesModifElim();
             }
-
-
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -91,7 +115,7 @@ function deshabilitarBotones(){
    $("#boton-eliminar").attr("disabled",true);
 }
 
-function habilidarBotonesModElim() { 
+function habilitarBotonesModifElim() { 
     $("#boton-modificar").attr("disabled",false);
     $("#boton-eliminar").attr("disabled",false);
  }
