@@ -73,6 +73,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="getRegistroID.ashx.cs">
+      <DependentUpon>getRegistroID.ashx</DependentUpon>
+    </Compile>
     <Compile Include="GetTodosTerritories.ashx.cs">
       <DependentUpon>GetTodosTerritories.ashx</DependentUpon>
     </Compile>
@@ -80,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GetTodosTerritories.ashx" />
+    <Content Include="getRegistroID.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

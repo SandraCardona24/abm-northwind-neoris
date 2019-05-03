@@ -18,7 +18,7 @@ namespace CapaPresentacion
             ManejadorTerritories manejador = new ManejadorTerritories();
             string jsonOutput = string.Empty;
             context.Response.ContentType = "application/json";
-
+            
             var registros = manejador.GetTodosLosRegistros();
 
             jsonOutput = new JavaScriptSerializer().Serialize(registros);

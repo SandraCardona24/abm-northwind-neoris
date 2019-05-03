@@ -4,8 +4,35 @@
     $('.dropdown-regiones').append('<option value="3">Northern</option>');
     $('.dropdown-regiones').append('<option value="4">Southern</option>');
 
-
     //Cargar registros en tabla
+    cargarTabla();
+
+    $("#inputId").change(function(){
+        getRegistroID($("#inputId").val());
+    })
+   
+
+});
+
+function getRegistroID(){
+    $.ajax({
+        type: "POST",
+        url: 'getRegistroID.ashx',
+        data: { id: $("#inputId").val() },        
+        dataType: "json",
+        async: true,
+        success: function(registro){
+                $("#inputDescripcion").val(registro.Description);
+                $('select>option:eq('+ registro.RegionId+')').attr('selected', true);             
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+            console.log(error.Message);
+        }
+    })
+
+}
+function cargarTabla(){
     $.ajax({
         type: "POST",
         url: 'GetTodosTerritories.ashx',
@@ -26,5 +53,4 @@
  
    
     });
-
-});
+}

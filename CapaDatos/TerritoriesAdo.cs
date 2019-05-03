@@ -72,7 +72,6 @@ namespace CapaDatos
             {
                 var territorie = contexto.Territories.Where(terr => terr.TerritoryID.Equals(idParam)).FirstOrDefault();
                 TerritoryEntity registro = new TerritoryEntity();
-
                 registro.Id = (territorie.TerritoryID);
                 registro.Description = territorie.TerritoryDescription;
                 registro.RegionId = territorie.RegionID;
