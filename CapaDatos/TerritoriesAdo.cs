@@ -18,7 +18,7 @@ namespace CapaDatos
         {
             using (NorthwindEntities contexto = new NorthwindEntities())
             {
-                var territorio = contexto.Territories.Where(terr => terr.TerritoryID.Equals(territory.RegionID)).First(); ;
+                var territorio = contexto.Territories.Where(terr => terr.TerritoryID.Equals(territory.TerritoryID)).First(); ;
                 territorio.RegionID = territory.RegionID;
                 territorio.TerritoryDescription = territory.TerritoryDescription;
                 contexto.SaveChanges();

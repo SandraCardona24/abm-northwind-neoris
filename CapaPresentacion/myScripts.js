@@ -20,7 +20,6 @@
         } else {
             getRegistroID($("#inputId").val());
         }
-
     })
 
     // click en boton insertar
@@ -36,6 +35,10 @@
         eliminarRegistro();    
 
     });
+
+    $("#boton-modificar").click(function(){
+        actualizarRegistro();
+    })
     
     
 
@@ -52,9 +55,7 @@ function insertarTerritorio(){
         
         async: true,
         success: function (datas) {   
-            agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID,  ($('.dropdown-regiones').children("option:selected").text()) );
-
-            
+            agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID,  ($('.dropdown-regiones').children("option:selected").text()) );            
             limpiarTodosInputs();         
  
         },
@@ -65,6 +66,7 @@ function insertarTerritorio(){
     })
 }
 
+//back end
 function eliminarRegistro(){
     $.ajax({
         type: "POST",
@@ -102,7 +104,8 @@ function getRegistroID() {
                 $("#boton-insertar").attr("disabled",false);
             } else {                
                 $("#inputDescripcion").val(registro.Description);
-                $('select>option:eq(' + registro.RegionId + ')').attr('selected', true);
+                $("select>option:selected").removeAttr("selected");
+                $('select').val(registro.RegionId);
                 habilitarBotonesModifElim();
             }
         },
@@ -122,8 +125,7 @@ function cargarTabla() {
         dataType: "json",
         async: true,
         success: function (registros) {
-            for (var i = 0; i < registros.length; i++) {
-                
+            for (var i = 0; i < registros.length; i++) {                
                 agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription);
             }
         },
@@ -135,9 +137,31 @@ function cargarTabla() {
 
     });
 }
+function actualizarRegistro(){
+   
+    $.ajax({
+        type: "POST",
+        url: 'Handlers/ModificarRegistro.ashx',
+        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val() },
+        dataType: "json",
+        
+        async: true,
+        success: function (datas) {   
+            var tabla = $("#"+datas.TerritoryID+ "> td");
+            tabla[1].innerText =  datas.TerritoryDescription;
+            tabla[2].innerText = datas.RegionID;
+            tabla[3].innerText = ($('.dropdown-regiones').children("option:selected").text());
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+            console.log(error.Message);
+        }
+    })
+}
 
 
-//funciones
+
+//funciones utilidades
 function limpiarDescYRegion(){
         $("#inputDescripcion").val("");
         $('select').val(0);
