@@ -10,34 +10,43 @@
     deshabilitarBotones();
 
 
+ 
+ 
     
-    //Cuando ingresamos un id.
-    $("#inputId").change(function () {
-        //Limpiart tabla
+    //Si realizamos busqueda por  id.
+    $("#inputId").change(function () {     
+        $("#mensaje").fadeTo('medium', 0);
+             
         if ($("#inputId").val() == "") {
             limpiarDescYRegion();
             deshabilitarBotones();            
         } else {
             getRegistroID($("#inputId").val());
-        }
+        }       
     })
 
     // click en boton insertar
-    $("#boton-insertar").click(function () {         
-        insertarTerritorio();        
-        deshabilitarBotones();
-        //aGREGAR SE AGREGO CORRECTAMENTE
-    
+    $("#boton-insertar").click(function () {  
+        if ($('.dropdown-regiones').children("option:selected").val() == 0){
+            cambiarMensajeYMostrar("Elegir una region");
+            return;
+        }
+        insertarTerritorio();      
     });
 
     //click en boton eliminar
     $("#boton-eliminar").click(function () { 
         eliminarRegistro();    
-
+        
     });
 
     $("#boton-modificar").click(function(){
+        if ($('.dropdown-regiones').children("option:selected").val() == 0){
+            cambiarMensajeYMostrar("Elegir una region");
+            return;
+        }
         actualizarRegistro();
+        deshabilitarBotones();  
     })
     
     
@@ -51,13 +60,13 @@ function insertarTerritorio(){
         type: "POST",
         url: 'Handlers/InsertarTerritorio.ashx',
         data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val() },
-        dataType: "json",
-        
+        dataType: "json",        
         async: true,
         success: function (datas) {   
             agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID,  ($('.dropdown-regiones').children("option:selected").text()) );            
-            limpiarTodosInputs();         
- 
+            limpiarTodosInputs();    
+            deshabilitarBotones();
+            cambiarMensajeYMostrar("Se inserto correctamente");     
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -77,10 +86,13 @@ function eliminarRegistro(){
         success: function (registro) {
             if(registro == "true"){                
                 eliminarIdDeTabla($("#inputId").val());
-                //MENSAJE SE ELIMINO CORRECTAMENTE
+                cambiarMensajeYMostrar("Se elimino correctamente");
             }else{
-                //MENSAJE NO SE PUDO ELIMINAR
+                cambiarMensajeYMostrar("No se puede elimiminar el registro");
             }
+            limpiarTodosInputs();
+            deshabilitarBotones();
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -103,8 +115,7 @@ function getRegistroID() {
                 deshabilitarBotones();
                 $("#boton-insertar").attr("disabled",false);
             } else {                
-                $("#inputDescripcion").val(registro.Description);
-               
+                $("#inputDescripcion").val(registro.Description);               
                 $('select').val(registro.RegionId);
                 habilitarBotonesModifElim();
             }
@@ -151,6 +162,9 @@ function actualizarRegistro(){
             tabla[1].innerText =  datas.TerritoryDescription;
             tabla[2].innerText = datas.RegionID;
             tabla[3].innerText = ($('.dropdown-regiones').children("option:selected").text());
+            cambiarMensajeYMostrar("Se actualizo correcamente");
+            limpiarTodosInputs();
+            deshabilitarBotones();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -193,3 +207,13 @@ function habilitarBotonesModifElim() {
     var registro = ("<tr id='"+id+"'><td>" + id + "</td><td>" + descripcion + "</td>   <td>" + region + "</td> <td>" + RegionDescription + "</td></tr>");
     $('table').append(registro);
  }
+
+ function cambiarMensajeYMostrar(mensaje){
+    $("#mensaje").text(mensaje);
+    $("#mensaje").fadeTo('medium',1 );
+    setTimeout(function() {
+        $("#mensaje").fadeTo('medium',0 );
+    }, 2000);
+    
+    
+ } 
