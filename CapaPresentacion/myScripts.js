@@ -104,7 +104,7 @@ function getRegistroID() {
                 $("#boton-insertar").attr("disabled",false);
             } else {                
                 $("#inputDescripcion").val(registro.Description);
-                $("select>option:selected").removeAttr("selected");
+               
                 $('select').val(registro.RegionId);
                 habilitarBotonesModifElim();
             }
