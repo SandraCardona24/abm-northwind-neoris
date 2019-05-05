@@ -10,7 +10,7 @@
     deshabilitarBotones();
 
 
- 
+    
  
     
     //Si realizamos busqueda por  id.
@@ -48,6 +48,19 @@
         actualizarRegistro();
         deshabilitarBotones();  
     })
+
+   $("table tbody").on('click','#boton-seleccionar', function(){
+        $(window).scrollTop(0);
+        var row = $(this).closest("tr");    // Find the row
+        var text = row.find("#id").text();
+
+        $("#inputId").val(row.find("td:eq(0)").text());      
+        $("#inputDescripcion").val(row.find("td:eq(1)").text().trim());
+        $('select').val(row.find("td:eq(2)").text());
+
+        habilitarBotonesModifElim();
+   });
+
     
     
 
@@ -204,7 +217,8 @@ function habilitarBotonesModifElim() {
  }
 
  function agregarRegistroATabla(id,descripcion,region,RegionDescription){
-    var registro = ("<tr id='"+id+"'><td>" + id + "</td><td>" + descripcion + "</td>   <td>" + region + "</td> <td>" + RegionDescription + "</td></tr>");
+     var smallButton = ' <button type="button" id="boton-seleccionar" class="btn btn-secondary btn-sm">Seleccionar</button>'
+    var registro = ("<tr id='"+id+"'><td>" + id + "</td><td>" + descripcion + "</td>   <td>" + region + "</td> <td>" + RegionDescription + "</td> <td>"+ smallButton+" </td></tr>");
     $('table').append(registro);
  }
 
@@ -213,7 +227,5 @@ function habilitarBotonesModifElim() {
     $("#mensaje").fadeTo('medium',1 );
     setTimeout(function() {
         $("#mensaje").fadeTo('medium',0 );
-    }, 2000);
-    
-    
- } 
+    }, 2000);    
+ }
