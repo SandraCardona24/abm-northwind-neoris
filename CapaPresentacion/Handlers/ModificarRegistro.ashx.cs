@@ -16,9 +16,21 @@ namespace CapaPresentacion.Handlers
         public void ProcessRequest(HttpContext context)
         {
             ManejadorTerritories manejador = new ManejadorTerritories();
-            string jsonOutput = string.Empty;
+            string jsonOutput = string.Empty;            
             context.Response.ContentType = "application/json";
+
             string id = Convert.ToString(context.Request.Form["id"]);
+            string descripcion = Convert.ToString(context.Request.Form["descripcion"]);
+            int region = Convert.ToInt32(context.Request.Form["regionId"]);
+
+            var territorio = manejador.CrearTerritorie(id, descripcion, region);
+            manejador.ActualizarRegistro(territorio);
+            
+            jsonOutput = new JavaScriptSerializer().Serialize(territorio);
+           context.Response.Write(jsonOutput);
+            
+            
+            
         }
 
         public bool IsReusable

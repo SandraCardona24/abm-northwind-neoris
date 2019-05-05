@@ -73,6 +73,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\EliminarRegistro.ashx.cs">
+      <DependentUpon>EliminarRegistro.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\getRegistroID.ashx.cs">
       <DependentUpon>getRegistroID.ashx</DependentUpon>
     </Compile>
@@ -92,6 +95,7 @@
     <Content Include="Handlers\getRegistroID.ashx" />
     <Content Include="Handlers\InsertarTerritorio.ashx" />
     <Content Include="Handlers\ModificarRegistro.ashx" />
+    <Content Include="Handlers\EliminarRegistro.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
