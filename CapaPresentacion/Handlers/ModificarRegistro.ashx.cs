@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CapaNegocio;
+using System.Web.Script.Serialization;
 
 namespace CapaPresentacion.Handlers
 {
@@ -13,8 +15,10 @@ namespace CapaPresentacion.Handlers
 
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "text/plain";
-            context.Response.Write("Hola a todos");
+            ManejadorTerritories manejador = new ManejadorTerritories();
+            string jsonOutput = string.Empty;
+            context.Response.ContentType = "application/json";
+            string id = Convert.ToString(context.Request.Form["id"]);
         }
 
         public bool IsReusable

@@ -18,7 +18,7 @@ namespace CapaPresentacion.Handlers
         {
             ManejadorTerritories manejador = new ManejadorTerritories();
 
-            string jsonOutput = string.Empty;
+           string jsonOutput = string.Empty;
             context.Response.ContentType = "application/json";
 
             string id = Convert.ToString(context.Request.Form["id"]);
