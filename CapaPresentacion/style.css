@@ -9,28 +9,28 @@ body {
 
 .jumbotron {
     background: rgba(209, 238, 249, 0.5); 
+    padding: 30px;
+    margin: 30px 20% 20px 20%;
 }
 .btn{
     margin-left: 4px;
 }
 .table{
     margin-top: 30px;
-    background:#FFFAFA;
+    background:RGBA(0, 223,254, 0.1);
+    
     border-radius: 1em; 
 }
 
-
-    tbody tr:first-child td:first-child {
-        border-radius: (4px 0 0 0);
-
-    }
-    tbody tr:first-child td:last-child {
-        border-radius: (0 4px 0 0);
-    }
-
+.titulo{
+    text-transform: uppercase;    
+    font-weight: 700;
+    text-shadow: .02rem .02rem .08rem black;
+    padding-bottom: 1rem;
+}
 
 .dropdown-regiones{
-    width: 100px;
+    width: 50px;
 }
  #divMensaje{
     margin-top: 20px; 
@@ -40,9 +40,13 @@ span#mensaje{
     border: solid 1px grey;
     padding: 10px;    
     border-radius: 10px;
+   
     
     box-shadow: 6px 10px 9px 1px rgba(128,126,128,0.21);
 }
 
 
+tr:hover{
+    background: #A2EAF4;
+}
 

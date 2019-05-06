@@ -34,8 +34,8 @@
 
     // click en boton insertar
     $("#boton-insertar").click(function () {  
-        if ($('.dropdown-regiones').children("option:selected").val() == 0){
-            cambiarMensajeYMostrar("Elegir una region");
+        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == "" ){
+            cambiarMensajeYMostrar("Faltan completar datos");
             return;
         }
         insertarTerritorio();   
@@ -51,8 +51,8 @@
 
     //Click en modificar
     $("#boton-modificar").click(function(){
-        if ($('.dropdown-regiones').children("option:selected").val() == 0){
-            cambiarMensajeYMostrar("Elegir una region");
+        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == "" ){
+            cambiarMensajeYMostrar("Faltan completar datos");
             return;
         }
         actualizarRegistro();
@@ -64,17 +64,17 @@
 
 
    //Buscar por description
-     $("#inputDescripcion").change(function () {   
-
+     $("#inputDescripcion").change(function () {           
         $("#mensaje").fadeTo('medium', 0);
         if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) {
             cambiarTablaAuxiliarAPrincipal();
         }
         else if ($("#inputId").val() == "" ) {                       
-    
+            
             cargarTablaPorDescripcion();
             $("#tabla-auxiliar").show();
             $(".tabla-principal").hide();
+            cambiarMensajeYMostrar("Borra los campos para volver atras")
 
         }       
     })
