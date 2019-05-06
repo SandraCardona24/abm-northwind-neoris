@@ -5,14 +5,10 @@ body {
    background-attachment: fixed;
     font-family: 'Roboto';
     padding: 10px;
+   
 }
 
-.jumbotron {
-    background: rgba(209, 238, 249, 0.5); 
-    padding: 30px;
-    margin: 30px 20% 20px 20%;
-    
-}
+
 .neoris-imagen{
     display:none;
     width: 700px;

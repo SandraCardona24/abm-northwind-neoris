@@ -11,8 +11,8 @@
     crearTablaAuxiliar();
     $("#tabla-auxiliar").hide();
     $("#boton-volver").hide();
-    
-    $(".neoris-imagen").fadeIn(1000);
+    $(".progress").hide();
+    $(".neoris-imagen").fadeIn(1500);
     
     
    
@@ -37,7 +37,8 @@
             return;
         }
         insertarTerritorio();   
-        cambiarTablaAuxiliarAPrincipal();  
+        cambiarTablaAuxiliarAPrincipal(); 
+        
         
     });
 
@@ -45,7 +46,7 @@
     $("#boton-eliminar").click(function () { 
         eliminarRegistro();   
         cambiarTablaAuxiliarAPrincipal();
-        $("#boton-volver").toggle();
+        $("#boton-volver").hide();
         
     });
 
@@ -58,9 +59,8 @@
         actualizarRegistro();
         deshabilitarBotones();  
         cambiarTablaAuxiliarAPrincipal();  
-        $("#boton-volver").toggle();      
-    })
-    
+        $("#boton-volver").hide();      
+    }) 
   
 
   
@@ -72,6 +72,7 @@
         $("#mensaje").fadeTo('medium', 0);
         if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) { //Si borran los inputs vuelve a la tabla principal
             cambiarTablaAuxiliarAPrincipal();
+            $("#boton-volver").hide();   
         }
         else if ($("#inputId").val() == "" ) {                       
             
@@ -93,7 +94,7 @@
             $("#tabla-auxiliar").show();
             $(".tabla-principal").hide();
             $("#boton-volver").show(); 
-            cambiarMensajeYMostrar("Borra los campos o clickear en volver para ir a la tabla principal")
+            cambiarMensajeYMostrar("Clickea en volver para ir a la tabla principal")
         }
     })
     //Volver a la tabla principal
@@ -118,6 +119,8 @@
     //Volver al inicio cuando llegaste al fin
     $(".boton-inicio").click(function(){    
         $(window).scrollTop(0);
+        $(".neoris-imagen").hide();
+        $(".neoris-imagen").fadeIn(1500);
     })
 
        
@@ -134,10 +137,13 @@ function insertarTerritorio(){
         dataType: "json",        
         async: true,
         success: function (datas) {   
-            agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID, ($('.dropdown-regiones').children("option:selected").text()), $(".tabla-principal") );            
-            limpiarTodosInputs();    
-            deshabilitarBotones();
-            cambiarMensajeYMostrar("Se inserto correctamente");     
+            cargarBarra();
+            setTimeout(function(){ 
+                agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID, ($('.dropdown-regiones').children("option:selected").text()), $(".tabla-principal") );            
+                limpiarTodosInputs();    
+                deshabilitarBotones();                
+                cambiarMensajeYMostrar("Se inserto correctamente");   
+            }, 1000);  
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -153,15 +159,17 @@ function eliminarRegistro(){
         dataType: "json",
         async: true,
         success: function (registro) {
-            if(registro == "true"){                
-                eliminarIdDeTabla($("#inputId").val());
-                cambiarMensajeYMostrar("Se elimino correctamente");
-            }else{
-                cambiarMensajeYMostrar("No se puede eliminar el registro, tiene un employee asociado");
-            }
-            limpiarTodosInputs();
-            deshabilitarBotones();
-
+            cargarBarra();
+            setTimeout(function(){   
+                if(registro == "true"){                
+                    eliminarIdDeTabla($("#inputId").val());
+                    cambiarMensajeYMostrar("Se elimino correctamente");
+                }else{
+                    cambiarMensajeYMostrar("No se puede eliminar el registro, tiene un employee asociado");
+                }
+                limpiarTodosInputs();
+                deshabilitarBotones();
+            }, 1000);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -182,9 +190,13 @@ function actualizarRegistro(){
             tabla[1].innerText =  datas.TerritoryDescription;
             tabla[2].innerText = datas.RegionID;
             tabla[3].innerText = ($('.dropdown-regiones').children("option:selected").text());
-            cambiarMensajeYMostrar("Se actualizo correctamente");
-            limpiarTodosInputs();
-            deshabilitarBotones();
+            cargarBarra();
+            setTimeout(function(){            
+                cambiarMensajeYMostrar("Se actualizo correctamente");
+                limpiarTodosInputs();
+                deshabilitarBotones();
+            }, 1000);
+            
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
@@ -341,4 +353,14 @@ function cambiarTablaAuxiliarAPrincipal(){
     $('#tabla-auxiliar tbody').empty();
     $("#tabla-auxiliar").hide();    
     $(".tabla-principal").show(); 
+}
+
+function cargarBarra(){
+    $(".progress").show();
+    $(".progress-bar").css("width", "100%");
+    setTimeout(function(){
+        $(".progress").hide();
+        $(".progress-bar").css("width", "0%");
+    }, 1000);
+   
 }
