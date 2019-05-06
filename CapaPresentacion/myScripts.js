@@ -34,12 +34,13 @@
 
     // click en boton insertar
     $("#boton-insertar").click(function () {  
-        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == "" ){
-            cambiarMensajeYMostrar("Faltan completar datos");
+        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == ""){
+            cambiarMensajeYMostrar("Faltan ingresar datos");
             return;
         }
         insertarTerritorio();   
-        cambiarTablaAuxiliarAPrincipal();   
+        cambiarTablaAuxiliarAPrincipal();  
+        
     });
 
     //click en boton eliminar
@@ -51,13 +52,14 @@
 
     //Click en modificar
     $("#boton-modificar").click(function(){
-        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == "" ){
-            cambiarMensajeYMostrar("Faltan completar datos");
+        if ($('.dropdown-regiones').children("option:selected").val() == 0 || $("#inputDescripcion").val() == ""){
+            cambiarMensajeYMostrar("Faltan ingresar datos");
             return;
         }
         actualizarRegistro();
         deshabilitarBotones();  
         cambiarTablaAuxiliarAPrincipal();
+        
     })
 
   
@@ -74,7 +76,7 @@
             cargarTablaPorDescripcion();
             $("#tabla-auxiliar").show();
             $(".tabla-principal").hide();
-            cambiarMensajeYMostrar("Borra los campos para volver atras")
+            cambiarMensajeYMostrar("Borra los campos para volver")
 
         }       
     })
@@ -109,7 +111,7 @@ function insertarTerritorio(){
         dataType: "json",        
         async: true,
         success: function (datas) {   
-            agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID,  ($('.dropdown-regiones').children("option:selected").text()) );            
+            agregarRegistroATabla(datas.TerritoryID,datas.TerritoryDescription,datas.RegionID, ($('.dropdown-regiones').children("option:selected").text()), $(".tabla-principal") );            
             limpiarTodosInputs();    
             deshabilitarBotones();
             cambiarMensajeYMostrar("Se inserto correctamente");     
@@ -298,7 +300,7 @@ function crearTablaAuxiliar(){
 }
     
 function cambiarTablaAuxiliarAPrincipal(){
-        $('#tabla-auxiliar tbody').empty();
+    $('#tabla-auxiliar tbody').empty();
     $("#tabla-auxiliar").hide();    
     $(".tabla-principal").show(); 
 }
