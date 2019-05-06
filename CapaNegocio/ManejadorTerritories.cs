@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
-    public class ManejadorTerritories
+    public class ManejadorTerritories : IManejadorTerritories<Territories>
     {
         TerritoriesAdo capaDatos;
 
