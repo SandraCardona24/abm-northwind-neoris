@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    
+    //Cargando las regiones
     $('.dropdown-regiones').append('<option value="1">Eastern</option>');
     $('.dropdown-regiones').append('<option value="2">Western</option>');
     $('.dropdown-regiones').append('<option value="3">Northern</option>');
@@ -10,14 +12,19 @@
     deshabilitarBotones();
 
 
+
+    crearTablaAuxiliar();
+    $("#tabla-auxiliar").hide();
     
  
+   
     
     //Si realizamos busqueda por  id.
     $("#inputId").change(function () {     
         $("#mensaje").fadeTo('medium', 0);
              
         if ($("#inputId").val() == "") {
+            cambiarTablaAuxiliarAPrincipal(); //Por si estaba en la tabla auxiliar;
             limpiarDescYRegion();
             deshabilitarBotones();            
         } else {
@@ -31,15 +38,18 @@
             cambiarMensajeYMostrar("Elegir una region");
             return;
         }
-        insertarTerritorio();      
+        insertarTerritorio();   
+        cambiarTablaAuxiliarAPrincipal();   
     });
 
     //click en boton eliminar
     $("#boton-eliminar").click(function () { 
-        eliminarRegistro();    
+        eliminarRegistro();   
+        cambiarTablaAuxiliarAPrincipal();
         
     });
 
+    //Click en modificar
     $("#boton-modificar").click(function(){
         if ($('.dropdown-regiones').children("option:selected").val() == 0){
             cambiarMensajeYMostrar("Elegir una region");
@@ -47,26 +57,49 @@
         }
         actualizarRegistro();
         deshabilitarBotones();  
+        cambiarTablaAuxiliarAPrincipal();
     })
 
-   $("table tbody").on('click','#boton-seleccionar', function(){
-        $(window).scrollTop(0);
-        var row = $(this).closest("tr");    // Find the row
+  
+
+
+   //Buscar por description
+     $("#inputDescripcion").change(function () {   
+
+        $("#mensaje").fadeTo('medium', 0);
+        if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) {
+            cambiarTablaAuxiliarAPrincipal();
+        }
+        else if ($("#inputId").val() == "" ) {                       
+    
+            cargarTablaPorDescripcion();
+            $("#tabla-auxiliar").show();
+            $(".tabla-principal").hide();
+
+        }       
+    })
+
+      //Seleccionar elemento de la tabla
+   $("table tbody").on('click','#boton-seleccionar', function(){     
+         $(window).scrollTop(0);
+        var row = $(this).closest("tr");   //Agarro fila
         var text = row.find("#id").text();
+        console.log(row);
+        console.log(text);
 
         $("#inputId").val(row.find("td:eq(0)").text());      
         $("#inputDescripcion").val(row.find("td:eq(1)").text().trim());
         $('select').val(row.find("td:eq(2)").text());
 
         habilitarBotonesModifElim();
-   });
+});
 
     
     
 
 });
 
-//AJAX
+//---------AJAX--------
 function insertarTerritorio(){
     
     $.ajax({
@@ -88,7 +121,7 @@ function insertarTerritorio(){
     })
 }
 
-//back end
+
 function eliminarRegistro(){
     $.ajax({
         type: "POST",
@@ -113,6 +146,30 @@ function eliminarRegistro(){
         }
     })
 }
+function actualizarRegistro(){   
+    $.ajax({
+        type: "POST",
+        url: 'Handlers/ModificarRegistro.ashx',
+        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val() },
+        dataType: "json",
+        
+        async: true,
+        success: function (datas) {   
+            var tabla = $("#"+datas.TerritoryID+ "> td");
+            tabla[1].innerText =  datas.TerritoryDescription;
+            tabla[2].innerText = datas.RegionID;
+            tabla[3].innerText = ($('.dropdown-regiones').children("option:selected").text());
+            cambiarMensajeYMostrar("Se actualizo correctamente");
+            limpiarTodosInputs();
+            deshabilitarBotones();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+            console.log(error.Message);
+        }
+    })
+}
+
 function getRegistroID() {
     $.ajax({
         type: "POST",
@@ -150,7 +207,7 @@ function cargarTabla() {
         async: true,
         success: function (registros) {
             for (var i = 0; i < registros.length; i++) {                
-                agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription);
+                agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription,$(".tabla-principal"));
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
@@ -161,34 +218,35 @@ function cargarTabla() {
 
     });
 }
-function actualizarRegistro(){
-   
+
+function cargarTablaPorDescripcion() {
     $.ajax({
         type: "POST",
-        url: 'Handlers/ModificarRegistro.ashx',
-        data:{ id: $("#inputId").val(), descripcion: $("#inputDescripcion").val(),regionId:$('.dropdown-regiones').children("option:selected").val() },
+        url: 'Handlers/GetTerritoriesDescripcion.ashx',
+        data: {descripcion:  $("#inputDescripcion").val()}, 
+               
         dataType: "json",
-        
         async: true,
-        success: function (datas) {   
-            var tabla = $("#"+datas.TerritoryID+ "> td");
-            tabla[1].innerText =  datas.TerritoryDescription;
-            tabla[2].innerText = datas.RegionID;
-            tabla[3].innerText = ($('.dropdown-regiones').children("option:selected").text());
-            cambiarMensajeYMostrar("Se actualizo correcamente");
-            limpiarTodosInputs();
-            deshabilitarBotones();
+        success: function (registros) {        
+            for (var i = 0; i < registros.length; i++) {               
+                agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription,$("#tabla-auxiliar>table"));
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
             var error = eval("(" + XMLHttpRequest.responseText + ")");
             console.log(error.Message);
         }
-    })
+
+
+    });
 }
 
 
 
-//funciones utilidades
+
+
+
+//---------funciones utilidades----------
 function limpiarDescYRegion(){
         $("#inputDescripcion").val("");
         $('select').val(0);
@@ -198,7 +256,6 @@ function limpiarDescYRegion(){
 function limpiarTodosInputs(){
     limpiarDescYRegion();
     $("#inputId").val("");
-
 }
 
 function eliminarIdDeTabla(id){
@@ -216,10 +273,10 @@ function habilitarBotonesModifElim() {
     $("#boton-eliminar").attr("disabled",false);
  }
 
- function agregarRegistroATabla(id,descripcion,region,RegionDescription){
+ function agregarRegistroATabla(id,descripcion,region,RegionDescription,tabla){
      var smallButton = ' <button type="button" id="boton-seleccionar" class="btn btn-secondary btn-sm">Seleccionar</button>'
     var registro = ("<tr id='"+id+"'><td>" + id + "</td><td>" + descripcion + "</td>   <td>" + region + "</td> <td>" + RegionDescription + "</td> <td>"+ smallButton+" </td></tr>");
-    $('table').append(registro);
+    tabla.append(registro);
  }
 
  function cambiarMensajeYMostrar(mensaje){
@@ -228,4 +285,20 @@ function habilitarBotonesModifElim() {
     setTimeout(function() {
         $("#mensaje").fadeTo('medium',0 );
     }, 2000);    
- }
+}
+ 
+
+function crearTablaAuxiliar(){
+    $("#tabla-auxiliar").append("<table class='table'><thead class='thead-dark'><tr>"+             
+    "<th scope='col'>Id</th>"+
+    "<th scope='col'>Descripcion</th>"+
+    "<th scope='col'>Region ID</th>"+
+    "<th scope='col'>Region Description</th>"+
+    "<th scope='col'>Seleccionar</th></tr></thead><tbody> </tbody></table>");
+}
+    
+function cambiarTablaAuxiliarAPrincipal(){
+        $('#tabla-auxiliar tbody').empty();
+    $("#tabla-auxiliar").hide();    
+    $(".tabla-principal").show(); 
+}

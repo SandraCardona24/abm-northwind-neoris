@@ -1,34 +1,48 @@
 ﻿
 body {
     background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+
+   background-attachment: fixed;
     font-family: 'Roboto';
     padding: 10px;
 }
 
 .jumbotron {
-    background: rgba(232, 225, 233, 0.3);
-    padding: 10px;
-    margin: 20px 50px 15px 50px;   
+    background: rgba(209, 238, 249, 0.5); 
 }
 .btn{
     margin-left: 4px;
 }
 .table{
-    margin-top: 60px;
+    margin-top: 30px;
+    background:#FFFAFA;
+    border-radius: 1em; 
 }
+
+
+    tbody tr:first-child td:first-child {
+        border-radius: (4px 0 0 0);
+
+    }
+    tbody tr:first-child td:last-child {
+        border-radius: (0 4px 0 0);
+    }
+
 
 .dropdown-regiones{
     width: 100px;
 }
+ #divMensaje{
+    margin-top: 20px; 
+ }
 
 span#mensaje{
-    border: solid 1px black;
-    padding: 10px;
-    margin: 0 auto;
+    border: solid 1px grey;
+    padding: 10px;    
+    border-radius: 10px;
     
-    background-color: rgba(255, 0, 0, 0.1);
+    box-shadow: 6px 10px 9px 1px rgba(128,126,128,0.21);
 }
 
 
 
- 
