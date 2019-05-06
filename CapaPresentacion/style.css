@@ -13,9 +13,16 @@ body {
     margin: 30px 20% 20px 20%;
     
 }
-img{
-    width: 500px;
+.neoris-imagen{
+    display:none;
+    width: 700px;
+   
+    
     margin: 20px;
+}
+
+.neoris-imagen:hover{
+    transform: scale(1.06); transition: all .2s ease-in-out; 
 }
 
 .subtitulo{
@@ -46,7 +53,7 @@ h5{
 .titulo{
     text-transform: uppercase;    
     font-weight: 700;
-    text-shadow: .02rem .02rem .08rem black;
+    
     padding-bottom: 1rem;
 }
 
@@ -63,7 +70,7 @@ span#mensaje{
     border-radius: 10px;
    
     
-    box-shadow: 6px 10px 9px 1px rgba(128,126,128,0.21);
+    box-shadow: 3px 6px 4px .5px rgba(128,126,128,0.21);
 }
 
 

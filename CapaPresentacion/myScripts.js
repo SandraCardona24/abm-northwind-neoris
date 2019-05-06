@@ -1,6 +1,4 @@
-﻿$(document).ready(function () {
-
-    
+﻿$(document).ready(function () {    
     //Cargando las regiones
     $('.dropdown-regiones').append('<option value="1">Eastern</option>');
     $('.dropdown-regiones').append('<option value="2">Western</option>');
@@ -10,13 +8,12 @@
     //Cargar registros en tabla
     cargarTabla();
     deshabilitarBotones();
-
-
-
     crearTablaAuxiliar();
     $("#tabla-auxiliar").hide();
     
- 
+    $(".neoris-imagen").fadeIn(1000);
+    
+    
    
     
     //Si realizamos busqueda por  id.
@@ -24,7 +21,7 @@
         $("#mensaje").fadeTo('medium', 0);
              
         if ($("#inputId").val() == "") {
-            cambiarTablaAuxiliarAPrincipal(); //Por si estaba en la tabla auxiliar;
+            cambiarTablaAuxiliarAPrincipal(); //Por si estaba parado en la tabla auxiliar;
             limpiarDescYRegion();
             deshabilitarBotones();            
         } else {
@@ -61,6 +58,8 @@
         cambiarTablaAuxiliarAPrincipal();
         
     })
+    
+  
 
   
 
@@ -76,28 +75,28 @@
             cargarTablaPorDescripcion();
             $("#tabla-auxiliar").show();
             $(".tabla-principal").hide();
-            cambiarMensajeYMostrar("Borra los campos para volver")
+            cambiarMensajeYMostrar("Borra los campos para volver a la tabla principal")
 
         }       
     })
 
       //Seleccionar elemento de la tabla
    $("table tbody").on('click','#boton-seleccionar', function(){     
-         $(window).scrollTop(0);
+        $(window).scrollTop(0);
         var row = $(this).closest("tr");   //Agarro fila
-        var text = row.find("#id").text();
-        console.log(row);
-        console.log(text);
+        var text = row.find("#id").text();       
 
         $("#inputId").val(row.find("td:eq(0)").text());      
         $("#inputDescripcion").val(row.find("td:eq(1)").text().trim());
         $('select').val(row.find("td:eq(2)").text());
-
         habilitarBotonesModifElim();
-});
+    });
 
-    
-    
+    $(".boton-inicio").click(function(){    
+        $(window).scrollTop(0);
+    })
+
+       
 
 });
 
@@ -136,7 +135,7 @@ function eliminarRegistro(){
                 eliminarIdDeTabla($("#inputId").val());
                 cambiarMensajeYMostrar("Se elimino correctamente");
             }else{
-                cambiarMensajeYMostrar("No se puede elimiminar el registro");
+                cambiarMensajeYMostrar("No se puede eliminar el registro, tiene un employee asociado");
             }
             limpiarTodosInputs();
             deshabilitarBotones();
@@ -186,6 +185,7 @@ function getRegistroID() {
                 /**Por si ingreso un id valido, borro y volvio a escribir otro  sin hacer post. */
                 deshabilitarBotones();
                 $("#boton-insertar").attr("disabled",false);
+                
             } else {                
                 $("#inputDescripcion").val(registro.Description);               
                 $('select').val(registro.RegionId);
@@ -250,9 +250,9 @@ function cargarTablaPorDescripcion() {
 
 //---------funciones utilidades----------
 function limpiarDescYRegion(){
-        $("#inputDescripcion").val("");
-        $('select').val(0);
-        $("#inputDescripcion").attr("placeholder", "Descripcion").blur();
+    $("#inputDescripcion").val("");
+    $('select').val(0);
+    $("#inputDescripcion").attr("placeholder", "Descripcion").blur();
 }
 
 function limpiarTodosInputs(){
