@@ -10,6 +10,7 @@
     deshabilitarBotones();
     crearTablaAuxiliar();
     $("#tabla-auxiliar").hide();
+    $("#boton-volver").hide();
     
     $(".neoris-imagen").fadeIn(1000);
     
@@ -44,6 +45,7 @@
     $("#boton-eliminar").click(function () { 
         eliminarRegistro();   
         cambiarTablaAuxiliarAPrincipal();
+        $("#boton-volver").toggle();
         
     });
 
@@ -55,8 +57,8 @@
         }
         actualizarRegistro();
         deshabilitarBotones();  
-        cambiarTablaAuxiliarAPrincipal();
-        
+        cambiarTablaAuxiliarAPrincipal();  
+        $("#boton-volver").toggle();      
     })
     
   
@@ -65,9 +67,10 @@
 
 
    //Buscar por description
-     $("#inputDescripcion").change(function () {           
+     $("#inputDescripcion").change(function () {     
+             
         $("#mensaje").fadeTo('medium', 0);
-        if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) {
+        if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) { //Si borran los inputs vuelve a la tabla principal
             cambiarTablaAuxiliarAPrincipal();
         }
         else if ($("#inputId").val() == "" ) {                       
@@ -75,9 +78,29 @@
             cargarTablaPorDescripcion();
             $("#tabla-auxiliar").show();
             $(".tabla-principal").hide();
-            cambiarMensajeYMostrar("Borra los campos para volver a la tabla principal")
+            $("#boton-volver").toggle(); 
+            cambiarMensajeYMostrar("Borra los campos o clickear en volver para ir a la tabla principal")
 
         }       
+    })
+
+   
+
+    //Buscar por region
+    $('.dropdown-regiones').change(function(){
+        if ($("#inputId").val() == ""  && $("#inputDescripcion").val() == "" ) {
+            cargarTablaPorRegion();
+            $("#tabla-auxiliar").show();
+            $(".tabla-principal").hide();
+            $("#boton-volver").show(); 
+            cambiarMensajeYMostrar("Borra los campos o clickear en volver para ir a la tabla principal")
+        }
+    })
+    //Volver a la tabla principal
+    $("#boton-volver").click(function(){
+        cambiarTablaAuxiliarAPrincipal();
+        $("#boton-volver").toggle();
+        limpiarTodosInputs();
     })
 
       //Seleccionar elemento de la tabla
@@ -92,6 +115,7 @@
         habilitarBotonesModifElim();
     });
 
+    //Volver al inicio cuando llegaste al fin
     $(".boton-inicio").click(function(){    
         $(window).scrollTop(0);
     })
@@ -100,7 +124,7 @@
 
 });
 
-//---------AJAX--------
+//---------FUNCIONES AJAX--------
 function insertarTerritorio(){
     
     $.ajax({
@@ -121,8 +145,6 @@ function insertarTerritorio(){
         }
     })
 }
-
-
 function eliminarRegistro(){
     $.ajax({
         type: "POST",
@@ -170,7 +192,6 @@ function actualizarRegistro(){
         }
     })
 }
-
 function getRegistroID() {
     $.ajax({
         type: "POST",
@@ -220,7 +241,6 @@ function cargarTabla() {
 
     });
 }
-
 function cargarTablaPorDescripcion() {
     $.ajax({
         type: "POST",
@@ -242,13 +262,31 @@ function cargarTablaPorDescripcion() {
 
     });
 }
+function cargarTablaPorRegion(){
+   
+    $.ajax({
+        type: "POST",
+        url: 'Handlers/GetTerritoriesRegion.ashx',
+        data: { region: $('.dropdown-regiones').children("option:selected").val()},                
+        dataType: "json",
+        async: true,
+        success: function (registros) {        
+            for (var i = 0; i < registros.length; i++) {               
+                agregarRegistroATabla(registros[i].Id,registros[i].Description, registros[i].RegionId, registros[i].RegionDescription,$("#tabla-auxiliar>table"));
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) { // función que va a ejecutar si hubo algún tipo de error en el pedido
+            var error = eval("(" + XMLHttpRequest.responseText + ")");
+            console.log(error.Message);
+        }
+    });
+}
 
 
 
 
 
-
-//---------funciones utilidades----------
+//---------FUNCIONES UTILIDADES----------
 function limpiarDescYRegion(){
     $("#inputDescripcion").val("");
     $('select').val(0);

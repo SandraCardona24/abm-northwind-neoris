@@ -82,6 +82,9 @@
     <Compile Include="Handlers\GetTerritoriesDescripcion.ashx.cs">
       <DependentUpon>GetTerritoriesDescripcion.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\GetTerritoriesRegion.ashx.cs">
+      <DependentUpon>GetTerritoriesRegion.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\GetTodosTerritories.ashx.cs">
       <DependentUpon>GetTodosTerritories.ashx</DependentUpon>
     </Compile>
@@ -100,6 +103,7 @@
     <Content Include="Handlers\ModificarRegistro.ashx" />
     <Content Include="Handlers\EliminarRegistro.ashx" />
     <Content Include="Handlers\GetTerritoriesDescripcion.ashx" />
+    <Content Include="Handlers\GetTerritoriesRegion.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

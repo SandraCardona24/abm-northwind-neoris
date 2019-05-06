@@ -31,31 +31,35 @@
       <h5 class="subtitulo">Nicolas Andres Diaz</h5>
     </div>
         <div class="row justify-content-center">
-            <div class="col-9 text-center">
+            <div class="col-8">
                 <form>
                     <div class="form-row text-center">
-                        <div  class="col">
-                            <input  id="inputId" type="number" class="form-control" placeholder="Ingrese un Id">
-                        </div>
-                        <div class="col">
-                            <input id="inputDescripcion" type="text" class="form-control" placeholder="Descripcion">
-                        </div>
-                        <div class="col input-group mb-3">
-                            <select class=" dropdown-regiones custom-select" id="inputGroupSelect02">
-                                <option  value="0" selected>Regiones...</option>
+                        
+                            <div  class="col">
+                                <input  id="inputId" type="number" class="form-control" placeholder="Ingrese un Id">
+                            </div>
+                            <div class="col">
+                                <input id="inputDescripcion" type="text" class="form-control" placeholder="Descripcion">
+                            </div>
+                            <div class="col input-group mb-3">
+                                <select class=" dropdown-regiones custom-select" id="inputGroupSelect02">
+                                    <option  value="0" selected>Regiones...</option>
 
-                            </select>
-                        </div>
-                        <div class="col">
+                                </select>
+                            </div>
+                          
+                        <div class="col-4 text-left ">
                             <button id="boton-insertar" type="button" class="btn btn-success shadow-sm">Insertar</button>
                             <button id="boton-modificar" type="button" class="btn btn-primary">Modificar</button>
                             <button id="boton-eliminar" type="button" class="btn btn-danger">Eliminar</button>
+                            <button id= "boton-volver" type="button" class="btn btn-light">Volver..</button>
                         </div>
                     </div>             
                 </form>
             </div>
             <div id="divMensaje" class="col-12 text-center">
-                    <span id="mensaje">Puedes buscar por ID o Descripcion</span>        
+                    
+                    <span id="mensaje">Puedes buscar por ID, Descripcion o Region</span>        
             </div>
             <!--Tabla-->
 
@@ -63,7 +67,7 @@
 
             </div>
 
-            <div class="col-8">
+            <div class="col-9">
                 <table class="table tabla-principal ">
                     <thead class="thead-dark">
                         <tr>                            
